@@ -20,7 +20,8 @@ class LayerNormalization(nn.Module):
                     self.dimension // self.dimension,
                     self.dimension,
                 )
-            )
+            ),
+            requires_grad=True,
         )
         self.betas = nn.Parameter(
             torch.zeros(
@@ -29,7 +30,8 @@ class LayerNormalization(nn.Module):
                     self.dimension // self.dimension,
                     self.dimension,
                 )
-            )
+            ),
+            requires_grad=True,
         )
 
     def forward(self, x: torch.Tensor):
