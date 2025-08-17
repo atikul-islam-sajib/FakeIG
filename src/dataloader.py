@@ -1,10 +1,13 @@
 import os
 import sys
 import cv2
+import math
 import joblib
 import zipfile
+import argparse
 from tqdm import tqdm
 from PIL import Image
+import matplotlib.pyplot as plt
 from torchvision import transforms
 from torch.utils.data import DataLoader
 
@@ -103,9 +106,91 @@ class Loader:
         ]:
             joblib.dump(data, os.path.join("./data/processed", filename))
 
+    @staticmethod
+    def plot_images():
+        if not os.path.exists("./data/processed"):
+            raise FileNotFoundError(
+                "Processed data not found. Please unzip the data first."
+            )
+
+        train_dataloader = joblib.load(
+            filename=os.path.join("./data/processed", "train_dataloader.pkl")
+        )
+        images, _ = next(iter(train_dataloader))
+
+        num_of_rows = int(math.sqrt(images.size(0)))
+        num_of_cols = images.size(0) // num_of_rows
+
+        plt.figure(figsize=(10, 10))
+        plt.title("Sample images of training data".title())
+
+        for index, image in enumerate(images):
+            image = image.squeeze(0)
+            image = image.permute(1, 2, 0)
+
+            image = (image - image.min()) / (image.max() - image.min() + 1e-8)
+
+            plt.subplot(num_of_rows, num_of_cols, index + 1)
+            plt.imshow(image)
+            plt.axis("off")
+
+        plt.tight_layout()
+        plt.savefig("./artifacts/files/images.jpeg")
+        plt.show()
+        plt.close()
+
+        print("Images saved at ./artifacts/files/images.jpeg")
+
 
 if __name__ == "__main__":
-    loader = Loader(image_size=224, split_size=0.80, batch_size=16)
-    loader.unzip_folder()
-    loader.extract_features()
-    loader.create_dataloader()
+    parser = argparse.ArgumentParser(
+        description="Dataloader for creating the Fake Images".title()
+    )
+
+    parser.add_argument(
+        "--image_size",
+        type=int,
+        default=224,
+        help="Size of the images",
+    )
+    parser.add_argument(
+        "--split_size",
+        type=float,
+        default=0.80,
+        help="Size of the images",
+    )
+    parser.add_argument(
+        "--batch_size",
+        type=int,
+        default=16,
+        help="Size of the images",
+    )
+    parser.add_argument(
+        "--type",
+        type=str,
+        default="RGB",
+        help="Type of the images",
+    )
+
+    args = parser.parse_args()
+
+    image_size = args.image_size
+    split_size = args.split_size
+    batch_size = args.batch_size
+    type = args.type
+
+    loader = Loader(
+        image_size=args.image_size,
+        split_size=args.split_size,
+        batch_size=args.batch_size,
+        type=args.type,
+    )
+
+    try:
+        loader.unzip_folder()
+        loader.extract_features()
+        loader.create_dataloader()
+    except Exception as e:
+        print(e)
+    finally:
+        loader.plot_images()
