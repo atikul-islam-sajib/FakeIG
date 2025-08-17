@@ -92,7 +92,7 @@ class Loader:
             shuffle=True,
         )
         valid_dataloader = DataLoader(
-            dataset=list(zip(test, [0] * len(test))),
+            dataset=list(zip(test, [1] * len(test))),
             batch_size=self.batch_size,
             shuffle=True,
         )
