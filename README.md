@@ -5,5 +5,6 @@ Both generator and discriminator are pure ViT architectures. The discriminator w
 1. Dataloader -> completed
 2. Scale dot product -> completed
 3. Multihead attenion -> completed
+4. Layer Norm -> completed
 
 will be completed soon
