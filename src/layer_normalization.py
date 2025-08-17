@@ -10,7 +10,6 @@ sys.path.append("./src")
 class LayerNormalization(nn.Module):
     def __init__(self, dimension: int = 512, eps: float = 1e-5):
         super(LayerNormalization, self).__init__()
-
         self.dimension = dimension
         self.eps = eps
 
@@ -46,8 +45,18 @@ class LayerNormalization(nn.Module):
 
 
 if __name__ == "__main__":
-    normalization = LayerNormalization(dimension=512, eps=1e-5)
+    parser = argparse.ArgumentParser(description="Layer Normalization".title())
+    parser.add_argument(
+        "--dimension", type=int, default=512, help="Dimension".capitalize()
+    )
+    parser.add_argument("--eps", type=float, default=1e-5, help="Epsilon".capitalize())
 
-    images = torch.randn((16, 64, 512))
+    args = parser.parse_args()
 
-    print(normalization(images).size())
+    normalization = LayerNormalization(dimension=args.dimension, eps=args.eps)
+
+    images = torch.randn((16, 64, args.dimension))
+
+    assert (
+        normalization(images).size()
+    ) == images.size(), "Normalization must be the same size as images".capitalize()
