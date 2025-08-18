@@ -57,12 +57,17 @@ class Discriminator(nn.Module):
                     activation=self.activation,
                     layer_norm_eps=self.layer_norm_eps,
                 )
-                for _ in tqdm(range(self.num_layers))
+                for _ in tqdm(
+                    range(self.num_layers),
+                    desc=f"Initializing Transformer with {self.num_layers} layers".capitalize(),
+                )
             ]
         )
 
         self.classifier = nn.Linear(
-            in_features=self.d_model, out_features=self.d_model // self.d_model
+            in_features=self.d_model,
+            out_features=self.d_model // self.d_model,
+            bias=False,
         )
 
     def forward(self, x: torch.Tensor):
@@ -80,16 +85,73 @@ class Discriminator(nn.Module):
 
 
 if __name__ == "__main__":
-    netD = Discriminator(
-        image_size=224,
-        patch_size=8,
-        num_layers=2,
-        d_model=512,
-        nhead=8,
-        dim_feedforward=2048,
-        dropout=0.1,
-        activation="gelu",
-        layer_norm_eps=1e-5,
+    parser = argparse.ArgumentParser(description="Discriminator for the FakeIG".title())
+    parser.add_argument(
+        "--image_size", type=int, default=224, help="Image size".capitalize()
     )
-    images = torch.randn((4, 3, 224, 224))
-    print(netD(images).shape)
+    parser.add_argument(
+        "--patch_size", type=int, default=8, help="Patch size".capitalize()
+    )
+    parser.add_argument(
+        "--image_channels", type=int, default=3, help="Image channels".capitalize()
+    )
+    parser.add_argument(
+        "--d_model", type=int, default=512, help="Dimension".capitalize()
+    )
+    parser.add_argument(
+        "--nhead", type=int, default=8, help="Number of heads".capitalize()
+    )
+    parser.add_argument(
+        "--dim_feedforward",
+        type=int,
+        default=2048,
+        help="Dimension".capitalize(),
+    )
+    parser.add_argument(
+        "--dropout", type=float, default=0.1, help="Dropout".capitalize()
+    )
+    parser.add_argument(
+        "--activation",
+        type=str,
+        default="gelu",
+        help="Activation function".capitalize(),
+    )
+    parser.add_argument(
+        "--layer_norm_eps", type=float, default=1e-5, help="Epsilon".capitalize()
+    )
+    parser.add_argument(
+        "--num_layers", type=int, default=4, help="Number of layers".capitalize()
+    )
+
+    args = parser.parse_args()
+
+    image_size = args.image_size
+    patch_size = args.patch_size
+    image_channels = args.image_channels
+    d_model = args.d_model
+    num_layers = args.num_layers
+    nhead = args.nhead
+    dim_feedforward = args.dim_feedforward
+    dropout = args.dropout
+    activation = args.activation
+    layer_norm_eps = args.layer_norm_eps
+
+    batch_size = 4
+
+    netD = Discriminator(
+        image_size=image_size,
+        patch_size=patch_size,
+        num_layers=num_layers,
+        d_model=d_model,
+        nhead=nhead,
+        dim_feedforward=dim_feedforward,
+        dropout=dropout,
+        activation=activation,
+        layer_norm_eps=layer_norm_eps,
+    )
+
+    images = torch.randn((batch_size, image_channels, image_size, image_size))
+
+    assert (netD(images).shape) == torch.Size(
+        [batch_size]
+    ), "Output shape is not correct".title()
