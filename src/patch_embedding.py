@@ -63,8 +63,27 @@ class PatchEmbedding(nn.Module):
 
 
 if __name__ == "__main__":
-    embedding = PatchEmbedding(
-        image_size=224, patch_size=8, image_channels=3, dimension=512
+    parser = argparse.ArgumentParser(description="Patch Embedding".title())
+    parser.add_argument(
+        "--image_size", type=int, default=224, help="Image size".capitalize()
     )
-    images = torch.randn((16, 3, 224, 224))
+    parser.add_argument(
+        "--patch_size", type=int, default=8, help="Patch size".capitalize()
+    )
+    parser.add_argument(
+        "--image_channels", type=int, default=3, help="Image channels".capitalize()
+    )
+    parser.add_argument(
+        "--dimension", type=int, default=512, help="Dimension".capitalize()
+    )
+
+    args = parser.parse_args()
+
+    embedding = PatchEmbedding(
+        image_size=args.image_size,
+        patch_size=args.patch_size,
+        image_channels=args.image_channels,
+        dimension=args.dimension,
+    )
+    images = torch.randn((16, 3, args.image_size, args.image_size))
     print(embedding(images).size())
