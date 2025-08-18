@@ -174,5 +174,14 @@
         "peekOfCode": "def scale_dot_product(query: torch.Tensor, key: torch.Tensor, value: torch.Tensor):\n    if (\n        not isinstance(query, torch.Tensor)\n        or not isinstance(key, torch.Tensor)\n        or not isinstance(value, torch.Tensor)\n    ):\n        raise TypeError(\"Images must be a torch.Tensor\".capitalize())\n    else:\n        weights = torch.matmul(\n            input=query, other=torch.transpose(input=key, dim0=-2, dim1=-1)",
         "detail": "src.scale_dot_product",
         "documentation": {}
+    },
+    {
+        "label": "TransformerEncoderBlock",
+        "kind": 6,
+        "importPath": "src.transformer_encoder_block",
+        "description": "src.transformer_encoder_block",
+        "peekOfCode": "class TransformerEncoderBlock(nn.Module):\n    def __init__(\n        self,\n        d_model: int = 512,\n        nhead: int = 8,\n        dim_feedforward: int = 2048,\n        dropout: float = 0.1,\n        activation: str = \"gelu\",\n        layer_norm_eps: float = 1e-5,\n    ):",
+        "detail": "src.transformer_encoder_block",
+        "documentation": {}
     }
 ]
