@@ -131,6 +131,15 @@
         "documentation": {}
     },
     {
+        "label": "Discriminator",
+        "kind": 6,
+        "importPath": "src.discriminator",
+        "description": "src.discriminator",
+        "peekOfCode": "class Discriminator(nn.Module):\n    def __init__(\n        self,\n        image_size: int = 224,\n        patch_size: int = 8,\n        num_layers: int = 4,\n        d_model: int = 512,\n        nhead: int = 8,\n        dim_feedforward: int = 2048,\n        dropout: float = 0.1,",
+        "detail": "src.discriminator",
+        "documentation": {}
+    },
+    {
         "label": "FeedForwardNeuralNetwork",
         "kind": 6,
         "importPath": "src.feedforward_neural_network",
