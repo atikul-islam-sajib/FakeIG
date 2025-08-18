@@ -47,7 +47,8 @@ class PatchEmbedding(nn.Module):
                 self.patch_size // self.patch_size,
                 self.patch_size // self.patch_size,
                 self.dimension,
-            )
+            ),
+            requires_grad=True,
         )
 
     def forward(self, x: torch.Tensor):
