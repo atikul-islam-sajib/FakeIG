@@ -135,7 +135,7 @@
         "kind": 6,
         "importPath": "src.feedforward_neural_network",
         "description": "src.feedforward_neural_network",
-        "peekOfCode": "class FeedForwardNeuralNetwork(nn.Module):\n    def __init__(self, dimension: int = 512, dropout: float = 0.1, activation: str = \"gelu\"):\n        super(FeedForwardNeuralNetwork, self).__init__()\n        self.dimension = dimension\n        self.dropout = dropout\n        self.activation_func = activation\n        if activation == \"gelu\":\n            self.activation_func = nn.GELU()\n        elif activation == \"relu\":\n            self.activation_func = nn.ReLU()",
+        "peekOfCode": "class FeedForwardNeuralNetwork(nn.Module):\n    def __init__(\n        self, dimension: int = 512, dropout: float = 0.1, activation: str = \"gelu\"\n    ):\n        super(FeedForwardNeuralNetwork, self).__init__()\n        self.dimension = dimension\n        self.dropout = dropout\n        self.activation_func = activation\n        if activation == \"gelu\":\n            self.activation_func = nn.GELU()",
         "detail": "src.feedforward_neural_network",
         "documentation": {}
     },

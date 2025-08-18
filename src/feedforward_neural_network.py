@@ -8,13 +8,15 @@ sys.path.append("./src")
 
 
 class FeedForwardNeuralNetwork(nn.Module):
-    def __init__(self, dimension: int = 512, dropout: float = 0.1, activation: str = "gelu"):
+    def __init__(
+        self, dimension: int = 512, dropout: float = 0.1, activation: str = "gelu"
+    ):
         super(FeedForwardNeuralNetwork, self).__init__()
 
         self.dimension = dimension
         self.dropout = dropout
         self.activation_func = activation
-        
+
         if activation == "gelu":
             self.activation_func = nn.GELU()
         elif activation == "relu":
@@ -29,7 +31,9 @@ class FeedForwardNeuralNetwork(nn.Module):
         for index in range(2):
             if index == 0:
                 self.layers.append(
-                    nn.Linear(in_features=self.dimension, out_features=4 * self.dimension)
+                    nn.Linear(
+                        in_features=self.dimension, out_features=4 * self.dimension
+                    )
                 )
                 self.layers.append(self.activation_func)
                 self.layers.append(nn.Dropout(p=self.dropout))
@@ -40,20 +44,33 @@ class FeedForwardNeuralNetwork(nn.Module):
                     )
                 )
         self.network = nn.Sequential(*self.layers)
-        
+
     def forward(self, x: torch.Tensor):
         if not isinstance(x, torch.Tensor):
             raise TypeError("Input must be a torch.Tensor")
-        
+
         x = self.network(x)
         return x
-        
+
 
 if __name__ == "__main__":
-    network = FeedForwardNeuralNetwork(
-        dimension=512,
-        dropout=0.1
+    parser = argparse.ArgumentParser(description="Feed Forward Neural Network".title())
+    parser.add_argument(
+        "--dimension", type=int, default=512, help="Dimension of the input"
     )
-    print(network)
-    images = torch.randn((16, 768, 512))
-    print(network(images).size())
+    parser.add_argument("--dropout", type=float, default=0.1, help="Dropout rate")
+    parser.add_argument(
+        "--activation", type=str, default="gelu", help="Activation function"
+    )
+
+    args = parser.parse_args()
+
+    network = FeedForwardNeuralNetwork(
+        dimension=args.dimension, dropout=args.dropout, activation=args.activation
+    )
+
+    images = torch.randn((16, 768, args.dimension))
+
+    assert (
+        network(images).size() == images.size()
+    ), "Network must be the same size as images".capitalize()
