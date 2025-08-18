@@ -1,0 +1,169 @@
+[
+    {
+        "label": "os",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
+        "documentation": {}
+    },
+    {
+        "label": "sys",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "sys",
+        "description": "sys",
+        "detail": "sys",
+        "documentation": {}
+    },
+    {
+        "label": "cv2",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "cv2",
+        "description": "cv2",
+        "detail": "cv2",
+        "documentation": {}
+    },
+    {
+        "label": "math",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "math",
+        "description": "math",
+        "detail": "math",
+        "documentation": {}
+    },
+    {
+        "label": "joblib",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "joblib",
+        "description": "joblib",
+        "detail": "joblib",
+        "documentation": {}
+    },
+    {
+        "label": "zipfile",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "zipfile",
+        "description": "zipfile",
+        "detail": "zipfile",
+        "documentation": {}
+    },
+    {
+        "label": "argparse",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "argparse",
+        "description": "argparse",
+        "detail": "argparse",
+        "documentation": {}
+    },
+    {
+        "label": "tqdm",
+        "importPath": "tqdm",
+        "description": "tqdm",
+        "isExtraImport": true,
+        "detail": "tqdm",
+        "documentation": {}
+    },
+    {
+        "label": "Image",
+        "importPath": "PIL",
+        "description": "PIL",
+        "isExtraImport": true,
+        "detail": "PIL",
+        "documentation": {}
+    },
+    {
+        "label": "matplotlib.pyplot",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "matplotlib.pyplot",
+        "description": "matplotlib.pyplot",
+        "detail": "matplotlib.pyplot",
+        "documentation": {}
+    },
+    {
+        "label": "transforms",
+        "importPath": "torchvision",
+        "description": "torchvision",
+        "isExtraImport": true,
+        "detail": "torchvision",
+        "documentation": {}
+    },
+    {
+        "label": "DataLoader",
+        "importPath": "torch.utils.data",
+        "description": "torch.utils.data",
+        "isExtraImport": true,
+        "detail": "torch.utils.data",
+        "documentation": {}
+    },
+    {
+        "label": "torch",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "torch",
+        "description": "torch",
+        "detail": "torch",
+        "documentation": {}
+    },
+    {
+        "label": "torch.nn",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "torch.nn",
+        "description": "torch.nn",
+        "detail": "torch.nn",
+        "documentation": {}
+    },
+    {
+        "label": "Loader",
+        "kind": 6,
+        "importPath": "src.dataloader",
+        "description": "src.dataloader",
+        "peekOfCode": "class Loader:\n    def __init__(\n        self,\n        image_size: int = 224,\n        split_size: float = 0.30,\n        batch_size: int = 16,\n        type=\"RGB\",\n    ):\n        self.image_size = image_size\n        self.split_size = split_size",
+        "detail": "src.dataloader",
+        "documentation": {}
+    },
+    {
+        "label": "LayerNormalization",
+        "kind": 6,
+        "importPath": "src.layer_normalization",
+        "description": "src.layer_normalization",
+        "peekOfCode": "class LayerNormalization(nn.Module):\n    def __init__(self, dimension: int = 512, eps: float = 1e-5):\n        super(LayerNormalization, self).__init__()\n        self.dimension = dimension\n        self.eps = eps\n        self.gamma = nn.Parameter(\n            torch.ones(\n                (\n                    self.dimension // self.dimension,\n                    self.dimension // self.dimension,",
+        "detail": "src.layer_normalization",
+        "documentation": {}
+    },
+    {
+        "label": "MultiHeadAttentionLayer",
+        "kind": 6,
+        "importPath": "src.multihead_attention_layer",
+        "description": "src.multihead_attention_layer",
+        "peekOfCode": "class MultiHeadAttentionLayer(nn.Module):\n    def __init__(\n        self,\n        heads: int = 8,\n        dimension: int = 512,\n        eps: float = 1e-5,\n        bias: bool = False,\n    ):\n        super(MultiHeadAttentionLayer, self).__init__()\n        self.heads = heads",
+        "detail": "src.multihead_attention_layer",
+        "documentation": {}
+    },
+    {
+        "label": "PatchEmbedding",
+        "kind": 6,
+        "importPath": "src.patch_embedding",
+        "description": "src.patch_embedding",
+        "peekOfCode": "class PatchEmbedding(nn.Module):\n    def __init__(self, image_size: int = 224, patch_size: int = 8):\n        super(PatchEmbedding, self).__init__()\n        self.image_size = image_size\n        self.patch_size = patch_size\n    def forward(self, x: torch.Tensor):\n        if not isinstance(x, torch.Tensor):\n            raise TypeError(\"Input should be in torch format\".capitalize())\nif __name__ == \"__main__\":\n    embedding = PatchEmbedding(",
+        "detail": "src.patch_embedding",
+        "documentation": {}
+    },
+    {
+        "label": "scale_dot_product",
+        "kind": 2,
+        "importPath": "src.scale_dot_product",
+        "description": "src.scale_dot_product",
+        "peekOfCode": "def scale_dot_product(query: torch.Tensor, key: torch.Tensor, value: torch.Tensor):\n    if (\n        not isinstance(query, torch.Tensor)\n        or not isinstance(key, torch.Tensor)\n        or not isinstance(value, torch.Tensor)\n    ):\n        raise TypeError(\"Images must be a torch.Tensor\".capitalize())\n    else:\n        weights = torch.matmul(\n            input=query, other=torch.transpose(input=key, dim0=-2, dim1=-1)",
+        "detail": "src.scale_dot_product",
+        "documentation": {}
+    }
+]
