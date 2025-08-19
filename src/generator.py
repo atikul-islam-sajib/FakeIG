@@ -124,7 +124,7 @@ class Generator(nn.Module):
         self.decoder = Decoder(
             image_size=self.image_size,
             patch_size=self.patch_size,
-            in_channels=self.d_model
+            in_channels=self.d_model,
         )
 
     def forward(self, x: torch.Tensor):
@@ -149,24 +149,73 @@ class Generator(nn.Module):
         )
 
         x = self.decoder(x)
-        
+
         return x
 
 
 if __name__ == "__main__":
-    netG = Generator(
-        image_channels=3,
-        image_size=224,
-        patch_size=8,
-        num_layers=1,
-        d_model=512,
-        nhead=8,
-        dim_feedforward=2048,
-        dropout=0.1,
-        activation="gelu",
-        layer_norm_eps=1e-5,
+    parser = argparse.ArgumentParser(description="Generator for FakeIG".title())
+    parser.add_argument(
+        "--image_size", type=int, default=224, help="Image size".capitalize()
+    )
+    parser.add_argument(
+        "--patch_size", type=int, default=8, help="Patch size".capitalize()
+    )
+    parser.add_argument(
+        "--latent_size", type=int, default=100, help="Latent size".capitalize()
+    )
+    parser.add_argument(
+        "--image_channels", type=int, default=3, help="Image channels".capitalize()
+    )
+    parser.add_argument(
+        "--num_layers", type=int, default=4, help="Number of layers".capitalize()
+    )
+    parser.add_argument(
+        "--d_model", type=int, default=512, help="Dimension of model".capitalize()
+    )
+    parser.add_argument(
+        "--nhead", type=int, default=8, help="Number of heads".capitalize()
+    )
+    parser.add_argument(
+        "--dim_feedforward",
+        type=int,
+        default=2048,
+        help="Dimension of feedforward".capitalize(),
+    )
+    parser.add_argument(
+        "--dropout", type=float, default=0.1, help="Dropout".capitalize()
+    )
+    parser.add_argument(
+        "--activation",
+        type=str,
+        default="gelu",
+        help="Activation function".capitalize(),
+    )
+    parser.add_argument(
+        "--layer_norm_eps", type=float, default=1e-5, help="Epsilon".capitalize()
     )
 
-    images = torch.randn((16, 100, 1, 1))
+    args = parser.parse_args()
 
-    print(netG(images).size())
+    netG = Generator(
+        latent_size=args.latent_size,
+        image_channels=args.image_channels,
+        image_size=args.image_size,
+        patch_size=args.patch_size,
+        num_layers=args.num_layers,
+        d_model=args.d_model,
+        nhead=args.nhead,
+        dim_feedforward=args.dim_feedforward,
+        dropout=args.dropout,
+        activation=args.activation,
+        layer_norm_eps=args.layer_norm_eps,
+    )
+
+    images = torch.randn((16, args.latent_size, 1, 1))
+
+    assert (netG(images).size()) == (
+        16,
+        args.image_channels,
+        args.image_size,
+        args.image_size,
+    ), "Network must be the same size as images".capitalize()
