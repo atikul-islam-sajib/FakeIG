@@ -79,6 +79,14 @@
         "documentation": {}
     },
     {
+        "label": "tqdm",
+        "importPath": "tqdm",
+        "description": "tqdm",
+        "isExtraImport": true,
+        "detail": "tqdm",
+        "documentation": {}
+    },
+    {
         "label": "Image",
         "importPath": "PIL",
         "description": "PIL",
@@ -161,7 +169,7 @@
         "kind": 6,
         "importPath": "src.generator",
         "description": "src.generator",
-        "peekOfCode": "class Decoder(nn.Module):\n    def __init__(self):\n        pass\nclass Generator(nn.Module):\n    def __init__(\n        self,\n        image_channels: int = 3,\n        image_size: int = 224,\n        patch_size: int = 8,\n        num_layers: int = 4,",
+        "peekOfCode": "class Decoder(nn.Module):\n    def __init__(self):\n        pass\nclass Generator(nn.Module):\n    def __init__(\n        self,\n        latent_size: int = 100,\n        image_channels: int = 3,\n        image_size: int = 224,\n        patch_size: int = 8,",
         "detail": "src.generator",
         "documentation": {}
     },
@@ -170,7 +178,7 @@
         "kind": 6,
         "importPath": "src.generator",
         "description": "src.generator",
-        "peekOfCode": "class Generator(nn.Module):\n    def __init__(\n        self,\n        image_channels: int = 3,\n        image_size: int = 224,\n        patch_size: int = 8,\n        num_layers: int = 4,\n        d_model: int = 512,\n        nhead: int = 8,\n        dim_feedforward: int = 2048,",
+        "peekOfCode": "class Generator(nn.Module):\n    def __init__(\n        self,\n        latent_size: int = 100,\n        image_channels: int = 3,\n        image_size: int = 224,\n        patch_size: int = 8,\n        num_layers: int = 4,\n        d_model: int = 512,\n        nhead: int = 8,",
         "detail": "src.generator",
         "documentation": {}
     },
