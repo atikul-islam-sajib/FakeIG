@@ -138,6 +138,15 @@
         "documentation": {}
     },
     {
+        "label": "torch.optim",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "torch.optim",
+        "description": "torch.optim",
+        "detail": "torch.optim",
+        "documentation": {}
+    },
+    {
         "label": "Loader",
         "kind": 6,
         "importPath": "src.dataloader",
@@ -180,6 +189,24 @@
         "description": "src.generator",
         "peekOfCode": "class Generator(nn.Module):\n    def __init__(\n        self,\n        latent_size: int = 100,\n        image_channels: int = 3,\n        image_size: int = 224,\n        patch_size: int = 8,\n        num_layers: int = 4,\n        d_model: int = 512,\n        nhead: int = 8,",
         "detail": "src.generator",
+        "documentation": {}
+    },
+    {
+        "label": "load_dataloader",
+        "kind": 2,
+        "importPath": "src.helper",
+        "description": "src.helper",
+        "peekOfCode": "def load_dataloader():\n    pass\ndef initialization(**kawrgs):\n    lr = float(kawrgs[\"lr\"])\n    optimizer = str(kawrgs[\"optimizer\"])\n    beta1 = float(kawrgs[\"beta1\"])\n    beta2 = float(kawrgs[\"beta2\"])\n    momentum = float(kawrgs[\"momentum\"])\n    netG = Generator(\n        latent_size=100,",
+        "detail": "src.helper",
+        "documentation": {}
+    },
+    {
+        "label": "initialization",
+        "kind": 2,
+        "importPath": "src.helper",
+        "description": "src.helper",
+        "peekOfCode": "def initialization(**kawrgs):\n    lr = float(kawrgs[\"lr\"])\n    optimizer = str(kawrgs[\"optimizer\"])\n    beta1 = float(kawrgs[\"beta1\"])\n    beta2 = float(kawrgs[\"beta2\"])\n    momentum = float(kawrgs[\"momentum\"])\n    netG = Generator(\n        latent_size=100,\n        image_channels=3,\n        image_size=224,",
+        "detail": "src.helper",
         "documentation": {}
     },
     {
