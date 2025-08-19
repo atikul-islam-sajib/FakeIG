@@ -174,11 +174,11 @@
         "documentation": {}
     },
     {
-        "label": "Decoder",
+        "label": "DecoderLayer",
         "kind": 6,
         "importPath": "src.generator",
         "description": "src.generator",
-        "peekOfCode": "class Decoder(nn.Module):\n    def __init__(\n        self, image_size: int = 224, patch_size: int = 8, in_channels: int = 512\n    ):\n        super(Decoder, self).__init__()\n        self.image_size = image_size\n        self.patch_size = patch_size\n        self.in_channels = in_channels\n        self.out_channels = self.in_channels // 2\n        self.kernel_size = 4",
+        "peekOfCode": "class DecoderLayer(nn.Module):\n    def __init__(\n        self, image_size: int = 224, patch_size: int = 8, in_channels: int = 512\n    ):\n        super(DecoderLayer, self).__init__()\n        self.image_size = image_size\n        self.patch_size = patch_size\n        self.in_channels = in_channels\n        self.out_channels = self.in_channels // 2\n        self.kernel_size = 4",
         "detail": "src.generator",
         "documentation": {}
     },

@@ -14,11 +14,11 @@ except ImportError:
     print("Import cannot be found".capitalize())
 
 
-class Decoder(nn.Module):
+class DecoderLayer(nn.Module):
     def __init__(
         self, image_size: int = 224, patch_size: int = 8, in_channels: int = 512
     ):
-        super(Decoder, self).__init__()
+        super(DecoderLayer, self).__init__()
 
         self.image_size = image_size
         self.patch_size = patch_size
@@ -121,7 +121,7 @@ class Generator(nn.Module):
             ]
         )
 
-        self.decoder = Decoder(
+        self.decoder = DecoderLayer(
             image_size=self.image_size,
             patch_size=self.patch_size,
             in_channels=self.d_model,
