@@ -1,5 +1,6 @@
 import os
 import sys
+import math
 import torch
 import argparse
 import torch.nn as nn
@@ -14,8 +15,53 @@ except ImportError:
 
 
 class Decoder(nn.Module):
-    def __init__(self):
-        pass
+    def __init__(
+        self, image_size: int = 224, patch_size: int = 8, in_channels: int = 512
+    ):
+        super(Decoder, self).__init__()
+
+        self.image_size = image_size
+        self.patch_size = patch_size
+        self.in_channels = in_channels
+        self.out_channels = self.in_channels // 2
+        self.kernel_size = 4
+        self.stride_size = 2
+        self.padding_size = self.kernel_size // self.kernel_size
+
+        self.layers = []
+
+        self.repetative = int(
+            math.log2((self.image_size // (self.image_size // self.patch_size)))
+        )
+
+        for idx in range(self.repetative):
+            self.layers.append(
+                nn.ConvTranspose2d(
+                    in_channels=self.in_channels,
+                    out_channels=self.out_channels,
+                    kernel_size=self.kernel_size,
+                    stride=self.stride_size,
+                    padding=self.padding_size,
+                )
+            )
+            self.layers.append(nn.ReLU(inplace=True))
+            self.layers.append(nn.BatchNorm2d(self.out_channels))
+
+            self.in_channels = self.out_channels
+            self.out_channels = self.in_channels // 2
+
+        self.layers.append(
+            nn.Conv2d(in_channels=self.in_channels, out_channels=3, kernel_size=1)
+        )
+        self.layers.append(nn.Tanh())
+
+        self.network = nn.Sequential(*self.layers)
+
+    def forward(self, x: torch.Tensor):
+        if not isinstance(x, torch.Tensor):
+            raise TypeError("Input must be a torch.Tensor".capitalize())
+
+        return self.network(x)
 
 
 class Generator(nn.Module):
@@ -75,6 +121,12 @@ class Generator(nn.Module):
             ]
         )
 
+        self.decoder = Decoder(
+            image_size=self.image_size,
+            patch_size=self.patch_size,
+            in_channels=self.d_model
+        )
+
     def forward(self, x: torch.Tensor):
         if not isinstance(x, torch.Tensor):
             raise TypeError("Input must be a torch.Tensor".capitalize())
@@ -89,6 +141,15 @@ class Generator(nn.Module):
             x = transformer(x)
 
         x = x.permute(0, 2, 1)
+        x = x.view(
+            x.size(0),
+            x.size(1),
+            (self.image_size // self.patch_size),
+            (self.image_size // self.patch_size),
+        )
+
+        x = self.decoder(x)
+        
         return x
 
 
@@ -97,7 +158,7 @@ if __name__ == "__main__":
         image_channels=3,
         image_size=224,
         patch_size=8,
-        num_layers=4,
+        num_layers=1,
         d_model=512,
         nhead=8,
         dim_feedforward=2048,
