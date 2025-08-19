@@ -1,6 +1,7 @@
 import os
 import sys
 import torch
+import joblib
 import torch.nn as nn
 import torch.optim as optim
 
@@ -13,7 +14,13 @@ except ImportError:
     print("Import cannot be found".capitalize())
 
 def load_dataloader():
-    pass
+    train_dataloader = os.path.join("./data/processed", "train_dataloader.pkl")
+    valid_dataloader = os.path.join("./data/processed", "valid_dataloader.pkl")
+    
+    train_dataloader = joblib.load(filename=train_dataloader)
+    valid_dataloader = joblib.load(filename=valid_dataloader)
+
+    return train_dataloader, valid_dataloader
 
 
 def initialization(**kawrgs):
@@ -61,12 +68,16 @@ def initialization(**kawrgs):
     
     criterion = nn.BCEWithLogitsLoss()
     
+    train_dataloader, valid_dataloader = load_dataloader()
+    
     return{
         "netG": netG,
         "netD": netD,
         "optimizerG": optimizerG,
         "optimizerD": optimizerD,
-        "criterion": criterion
+        "criterion": criterion,
+        "train_dataloader": train_dataloader,
+        "valid_dataloader": valid_dataloader
     }
     
     
@@ -84,3 +95,5 @@ if __name__ == "__main__":
     assert init["optimizerG"].__class__ == optim.Adam
     assert init["optimizerD"].__class__ == optim.Adam
     assert init["criterion"].__class__ == nn.BCEWithLogitsLoss
+    assert init["train_dataloader"].__class__ == torch.utils.data.dataloader.DataLoader
+    assert init["valid_dataloader"].__class__ == torch.utils.data.dataloader.DataLoader

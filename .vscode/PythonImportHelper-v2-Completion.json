@@ -196,7 +196,7 @@
         "kind": 2,
         "importPath": "src.helper",
         "description": "src.helper",
-        "peekOfCode": "def load_dataloader():\n    pass\ndef initialization(**kawrgs):\n    lr = float(kawrgs[\"lr\"])\n    optimizer = str(kawrgs[\"optimizer\"])\n    beta1 = float(kawrgs[\"beta1\"])\n    beta2 = float(kawrgs[\"beta2\"])\n    momentum = float(kawrgs[\"momentum\"])\n    netG = Generator(\n        latent_size=100,",
+        "peekOfCode": "def load_dataloader():\n    train_dataloader = os.path.join(\"./data/processed\", \"train_dataloader.pkl\")\n    valid_dataloader = os.path.join(\"./data/processed\", \"valid_dataloader.pkl\")\n    train_dataloader = joblib.load(filename=train_dataloader)\n    valid_dataloader = joblib.load(filename=valid_dataloader)\n    return train_dataloader, valid_dataloader\ndef initialization(**kawrgs):\n    lr = float(kawrgs[\"lr\"])\n    optimizer = str(kawrgs[\"optimizer\"])\n    beta1 = float(kawrgs[\"beta1\"])",
         "detail": "src.helper",
         "documentation": {}
     },
