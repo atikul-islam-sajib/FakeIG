@@ -61,8 +61,8 @@ def initialization(**kawrgs):
         optimizerG = optim.Adam(params=netG.parameters(), lr=lr, betas=(beta1, beta2))
         optimizerD = optim.Adam(params=netD.parameters(), lr=lr, betas=(beta1, beta2))
     elif optimizer == "SGD":
-        optimizerG = optim.SGD(params=netG.parameters(), lr=lr, momentum=0.9)
-        optimizerD = optim.SGD(params=netD.parameters(), lr=lr, momentum=0.9)
+        optimizerG = optim.SGD(params=netG.parameters(), lr=lr, momentum=momentum)
+        optimizerD = optim.SGD(params=netD.parameters(), lr=lr, momentum=momentum)
     else:
         raise ValueError("Optimizer not found".capitalize())
     
